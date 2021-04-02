@@ -1,4 +1,4 @@
 # notes
 for /notes
 
-see web in https://github.com/rrzhang23/notes
+see web in https://rrzhang23.github.io/notes
