@@ -52,7 +52,7 @@ collect2: error: ld returned 1 exit status
 ## extern "C"
 C++ 程序为了兼容 C 引入的，通常搭配使用的还有一个宏 `__cplusplus`。
 
-线上代码：
+先上代码：
 ~~~cpp
 // hello.h:
 void hello();
