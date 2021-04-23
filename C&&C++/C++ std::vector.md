@@ -114,3 +114,64 @@ reference at(size_type __n) {
 ~~~
 
 ### `push_back` 和 `emplace_back`
+动态增长：
+~~~cpp
+// vector.tcc
+    emplace_back(_Args&&... __args)
+    {
+        if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
+        {
+            _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
+                    std::forward<_Args>(__args)...);
+            ++this->_M_impl._M_finish;
+        }
+    else
+        _M_realloc_insert(end(), std::forward<_Args>(__args)...);
+    }
+
+
+    _M_realloc_insert(iterator __position, const _Tp& __x)
+    {
+    const size_type __len = _M_check_len(size_type(1), "vector::_M_realloc_insert");    // 检查是否超过 max_size()（该值由平台决定），并返回需要重新分配的大小（元素个数）
+      const size_type __elems_before = __position - begin();    // 之前元素个数（为什么不直接调用 size()?）
+      pointer __new_start(this->_M_allocate(__len));
+      pointer __new_finish(__new_start);
+      __try
+	{
+	  // The order of the three operations is dictated by the C++11
+	  // case, where the moves could alter a new element belonging
+	  // to the existing vector.  This is an issue only for callers
+	  // taking the element by lvalue ref (see last bullet of C++11
+	  // [res.on.arguments]).
+      // 新内存位置适当构造，以存放push进来的元素
+	  _Alloc_traits::construct(this->_M_impl, __new_start + __elems_before,
+#if __cplusplus >= 201103L
+				   std::forward<_Args>(__args)...);
+#else
+				   __x);
+#endif
+	  __new_finish = pointer();
+
+	  __new_finish
+	    = std::__uninitialized_move_if_noexcept_a
+	    (this->_M_impl._M_start, __position.base(),
+	     __new_start, _M_get_Tp_allocator());           // 移动之前内存数据到新的内存
+
+	  ++__new_finish;
+
+	  __new_finish
+	    = std::__uninitialized_move_if_noexcept_a
+	    (__position.base(), this->_M_impl._M_finish,
+	     __new_finish, _M_get_Tp_allocator());
+	}
+    __catch(...) { ... }
+    std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,  _M_get_Tp_allocator());     // 析构之前内存的元素，不释放内存
+    _M_deallocate(this->_M_impl._M_start, this->_M_impl._M_end_of_storage - this->_M_impl._M_start); // 这一步才释放
+    // 内部指针指向新的空间：
+    this->_M_impl._M_start = __new_start;
+    this->_M_impl._M_finish = __new_finish;
+    this->_M_impl._M_end_of_storage = __new_start + __len;
+    }
+~~~
+
+`push_back` 和 `emplace_back` 区别:
