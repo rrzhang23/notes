@@ -30,6 +30,7 @@ brpc 依赖 protobuf，当修改 CMakeList.txt，使链接指向自己目录下 
 # gflags
 cd $HOME/.local/build/build-brpc
 git clone git@github.com:gflags/gflags.git
+git clone https://github.com.cnpmjs.org/gflags/gflags.git
 cd gflags
 git reset --hard
 git clean -d -fx
@@ -40,7 +41,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/home/zhangrongrong/.local/brpc-env/gflags -DBUILD_
 
 # protobuf
 cd $HOME/.local/build/build-brpc
-git clone https://github.com/protocolbuffers/protobuf.git
+git clone https://github.com.cnpmjs.org/protocolbuffers/protobuf.git
 cd protobuf
 git checkout 4.0.x
 git submodule update --init --recursive
@@ -53,6 +54,7 @@ ln -s /home/zhangrongrong/.local/brpc-env/protobuf-4.0.x/lib/ /home/zhangrongron
 # leveldb
 cd $HOME/.local/build/build-brpc
 git clone git@github.com:google/leveldb.git
+git clone  https://github.com.cnpmjs.org/google/leveldb.git
 cd leveldb
 git submodule update --init --recursive
 git reset --hard

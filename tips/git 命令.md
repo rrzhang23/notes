@@ -247,6 +247,9 @@ curl -x socks5h://localhost:8001 http://www.google.com/
 ```
 > `ssh -o ProxyCommand="connect -S 127.0.0.1:1080 %h %p" zhangrongrong@10.11.6.119
 `
+
+### 其他加速方法
+在克隆时，连接中 `https://github.com/mysql/mysql-server.git` 改成 `https://github.com.cnpmjs.org/mysql/mysql-server.git`，貌似对 ssh 协议无效。
 ### 其他常用命令
 ```
 // 检查克隆结果

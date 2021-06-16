@@ -37,6 +37,7 @@ fi
 在安装时可能遇到 `g++: braced spec '%:sanitize(address):%{!shared:libasan_preinit%O%s} ` 这样的问题，建议在安装前清楚几个变量：
 ```
 unset CPLUS_INCLUDE_PATH C_INCLUDE_PATH LIBRARY_PATH
+unset CPLUS_INCLUDE_PATH C_INCLUDE_PATH LIBRARY_PATH PKG_CONFIG_PATH INCLUDE CPATH
 ```
 
 ## 安装
