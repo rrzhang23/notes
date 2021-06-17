@@ -1,4 +1,4 @@
-# notes-shared
-for /notes-shared
+# notes-share
+for /notes-share
 
-see web in https://rrzhang23.github.io/notes-shared
+see web in https://rrzhang23.github.io/notes-share
