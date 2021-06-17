@@ -79,9 +79,9 @@ make -j32 && make install
 ## 注意
 
 #### 1
-编译RDMA版本时，需要修改 `src/brpc/rdma/rdma_endpoint.cpp` 中的变量 `rdma_disable_local_connection` 为false，这样 RDMA 服务端才能在ip `0.0.0.0`或`127.0.0.1` 上启动。
+编译RDMA版本时，需要修改 `src/brpc/rdma/rdma_endpoint.cpp:50` 中的变量 `rdma_disable_local_connection` 为false，这样 RDMA 服务端才能在ip `0.0.0.0`或`127.0.0.1` 上启动。
 #### 2
-LOG(FATAL) 默认并不能使程序崩溃，需要修改 `src/butil/logging.cc` 中变量 `crash_on_fatal_log` 为 true 才行。
+LOG(FATAL) 默认并不能使程序崩溃，需要修改 `src/butil/logging.cc:118` 中变量 `crash_on_fatal_log` 为 true 才行。
 
 #### 3
 brpc 默认使用 bthread，使用协程实现，在使用时服务端的回调函数逻辑里，我们使用了大量的锁，结果导致 bthread 里很多逻辑也阻塞住了，结果就是系统陷入了死锁，gdb 查看的时候，全部是等待锁。  
@@ -91,7 +91,7 @@ brpc 默认使用 bthread，使用协程实现，在使用时服务端的回调�
 
 ## 安装 brpc
 ```
-// 确保 protobuf/bin/protoc export 于 ~/.bashrc
+// 确保 protobuf/bin/protoc export 于 ~/.bashrc，然后 source ~/.bashrc
 
 cd $HOME/.local/build/build-brpc
 git clone git@github.com:apache/incubator-brpc.git
