@@ -55,10 +55,14 @@ unset CPLUS_INCLUDE_PATH C_INCLUDE_PATH LIBRARY_PATH PKG_CONFIG_PATH INCLUDE CPA
 
 要先进入编译目录，再运行 configure，需要指定 `prefix`、`mandir`、`infodir` 等几个目录，`--enable-languages` 可以指定更多语言支持，但是编译时间会加长。
 ```
-// 进入编译目录
-cd gcc-7.4.0-build
+//
+$ cd gcc-7.4.0
+$ ./contrib/download_prerequisites
 
-../gcc-7.4.0/configure \
+// 进入编译目录
+$ cd gcc-7.4.0-build
+
+$ ../gcc-7.4.0/configure \
 --prefix=/home/zhangrongrong/.local/gcc-7.4.0 \
 --mandir=/home/zhangrongrong/.local/gcc-7.4.0/share/man \
 --infodir=/home/zhangrongrong/.local/gcc-7.4.0/share/info \
@@ -79,11 +83,11 @@ cd gcc-7.4.0-build
 --with-arch_32=x86-64 \
 --build=x86_64-pc-linux-gnu \
 
-nohup time make -j32 &
-time make install
+$ nohup time make -j32 &
+$ time make install
 
-cd ..
-rm -rf gcc-7.4.0-build
+$ cd ..
+$ rm -rf gcc-7.4.0-build
 ```
 
 安装完成后需要配置环境目录等，实例如下：

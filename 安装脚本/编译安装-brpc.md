@@ -9,6 +9,7 @@
 | protobuf | 4.0.x |
 | leveldb | 1.22 |
 | openssl | 1.0.2k |
+| boost | - |
 
 brpc 依赖 protobuf，当修改 CMakeList.txt，使链接指向自己目录下 protobuf 时，编译中途仍然链接的是 /usr 下的库，几番折腾，未果。
 
@@ -95,7 +96,7 @@ brpc 默认使用 bthread，使用协程实现，在使用时服务端的回调�
 
 cd $HOME/.local/build/build-brpc
 git clone git@github.com:apache/incubator-brpc.git
-git clone git@gitee.com:mirrors/BRPC.git
+git clone git@gitee.com:baidu/incubator-brpc.git
 cd incubator-brpc
 
 git checkout rdma
@@ -110,10 +111,13 @@ export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:$HOME/.local/include
 export C_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:$HOME/.local/include
 
 cmake -DWITH_RDMA=on \
--DCMAKE_INSTALL_PREFIX=/home/zhangrongrong/.local/brpc-env/brpc \
--DCMAKE_INCLUDE_PATH="/home/zhangrongrong/.local/brpc-env/gflags/include;/home/zhangrongrong/.local/brpc-env/protobuf-4.0.x/include;/home/zhangrongrong/.local/brpc-env/leveldb/include;/home/zhangrongrong/.local/brpc-env/openssl-1.0.2k/include" \
--DCMAKE_LIBRARY_PATH="/home/zhangrongrong/.local/brpc-env/gflags/lib;/home/zhangrongrong/.local/brpc-env/protobuf-4.0.x/lib;/home/zhangrongrong/.local/brpc-env/leveldb/lib64;/home/zhangrongrong/.local/brpc-env/openssl-1.0.2k/lib" .. \
+-DCMAKE_INSTALL_PREFIX=/home/zhangrongrong/.local/brpc-with-rdma \
+-DCMAKE_INCLUDE_PATH="/home/zhangrongrong/.local/boost_1_73_0;/home/zhangrongrong/.local/gflags-v2.2.0/include;/home/zhangrongrong/.local/protobuf-4.0.0-rc2/include;/home/zhangrongrong/.local/leveldb-1.23/include;/home/zhangrongrong/.local/openssl-1.0.2k/include" \
+-DCMAKE_LIBRARY_PATH="/home/zhangrongrong/.local/gflags-v2.2.0/lib;/home/zhangrongrong/.local/protobuf-4.0.0-rc2/lib;/home/zhangrongrong/.local/leveldb-1.23/lib64;/home/zhangrongrong/.local/openssl-1.0.2k/lib" .. \
 && make -j32 && make install
-cp -r output/bin/ ~/.local/brpc-env/brpc/
+cp -r output/bin/ ~/.local/brpc-with-rdma/
+
+cd ~/.local/
+ln -s boost_1_73_0/ boost_1_73_0-for-brpc-with-rdma
 ```
 

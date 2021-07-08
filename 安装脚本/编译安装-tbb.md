@@ -35,3 +35,25 @@ export        LD_RUN_PATH=$LD_RUN_PATH:$LD_LIBRARY_PATH
 export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:$TBB_ROOT/include
 export     C_INCLUDE_PATH=$C_INCLUDE_PATH:$CPLUS_INCLUDE_PATH
 ```
+
+v2021.3.0 版本：
+~~~cpp
+wget https://gitee.com/rrzhang/hwloc/repository/archive/hwloc-2.4.0.zip
+unzip hwloc-2.4.0.zip > /dev/null
+cd hwloc
+./autogen.sh
+./configure --prefix=/home/zhangrongrong/.local/hwloc-2.4.0
+make -j32 && make install
+cd ..
+rm -r hwloc/
+
+
+cd ~/.local/src/
+wget https://gitee.com/rrzhang/oneTBB/repository/archive/v2021.3.0.zip
+mv v2021.3.0.zip oneTBB-2021.3.0.zip
+unzip oneTBB-2021.3.0.zip > /dev/null
+cd oneTBB
+mkdir build && cd build
+cmake .. -DCMAKE_HWLOC_2_4_LIBRARY_PATH="/home/zhangrongrong/.local/hwloc-2.4.0/lib/libhwloc.so" -DCMAKE_HWLOC_2_4_INCLUDE_PATH="/home/zhangrongrong/.local/hwloc-2.4.0/include" -DCMAKE_INSTALL_PREFIX=/home/zhangrongrong/.local/oneTBB-2021.3.0
+make -j32 && make install
+~~~
